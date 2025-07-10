@@ -1,0 +1,55 @@
+{
+  "navigation": {
+    "home": "Ana Sayfa",
+    "recommendations": "Öneriler",
+    "search": "Arama",
+    "profile": "Profil"
+  },
+  "home": {
+    "title": "CineMatch",
+    "popularMovies": "Popüler Filmler",
+    "trendingNow": "Şu Anda Trend",
+    "yourRecommendations": "Sizin İçin Öneriler"
+  },
+  "recommendations": {
+    "title": "Sizin İçin Öneriler",
+    "noRecommendations": "Henüz öneri yok. Başlamak için bazı filmleri puanlayın!",
+    "loading": "Öneriler yükleniyor...",
+    "basedOnYourRatings": "Puanlarınıza göre"
+  },
+  "movieDetails": {
+    "overview": "Özet",
+    "cast": "Oyuncular",
+    "genre": "Tür",
+    "rating": "Puan",
+    "releaseDate": "Çıkış Tarihi",
+    "runtime": "Süre",
+    "minutes": "dk",
+    "addToWatchlist": "İzleme Listesine Ekle",
+    "removeFromWatchlist": "İzleme Listesinden Çıkar",
+    "rateMovie": "Bu filmi puanla"
+  },
+  "search": {
+    "title": "Film Ara",
+    "placeholder": "Film ara...",
+    "noResults": "Film bulunamadı",
+    "recentSearches": "Son Aramalar"
+  },
+  "profile": {
+    "title": "Profil",
+    "watchlist": "İzleme Listem",
+    "ratings": "Puanlarım",
+    "settings": "Ayarlar",
+    "language": "Dil",
+    "notifications": "Bildirimler",
+    "logout": "Çıkış"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Bir şeyler ters gitti",
+    "retry": "Tekrar Dene",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "ok": "Tamam"
+  }
+}

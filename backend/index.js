@@ -215,6 +215,325 @@ app.delete('/api/cache/recommendations/:userId', async (req, res) => {
   }
 });
 
+// ===== MOVIE API ENDPOINTS =====
+
+// Get popular movies
+app.get('/api/movies/popular', cacheMiddleware(600), async (req, res) => {
+  try {
+    const { page = 1 } = req.query;
+    const axios = require('axios');
+    
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/popular`, {
+      params: {
+        api_key: process.env.TMDB_API_KEY,
+        page: parseInt(page)
+      }
+    });
+    
+    res.json({
+      success: true,
+      ...response.data,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error getting popular movies:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Get trending movies
+app.get('/api/movies/trending', cacheMiddleware(600), async (req, res) => {
+  try {
+    const { page = 1 } = req.query;
+    const axios = require('axios');
+    
+    const response = await axios.get(`https://api.themoviedb.org/3/trending/movie/week`, {
+      params: {
+        api_key: process.env.TMDB_API_KEY,
+        page: parseInt(page)
+      }
+    });
+    
+    res.json({
+      success: true,
+      ...response.data,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error getting trending movies:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Get movie details
+app.get('/api/movies/:movieId', cacheMiddleware(3600), async (req, res) => {
+  try {
+    const { movieId } = req.params;
+    const axios = require('axios');
+    
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
+      params: {
+        api_key: process.env.TMDB_API_KEY,
+        append_to_response: 'credits,videos,similar'
+      }
+    });
+    
+    res.json({
+      success: true,
+      movie: response.data,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error getting movie details:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Search movies
+app.get('/api/movies/search', cacheMiddleware(300), async (req, res) => {
+  try {
+    const { query, page = 1 } = req.query;
+    
+    if (!query) {
+      return res.status(400).json({
+        success: false,
+        error: 'Query parameter is required'
+      });
+    }
+    
+    const axios = require('axios');
+    
+    const response = await axios.get(`https://api.themoviedb.org/3/search/movie`, {
+      params: {
+        api_key: process.env.TMDB_API_KEY,
+        query: query,
+        page: parseInt(page)
+      }
+    });
+    
+    res.json({
+      success: true,
+      ...response.data,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error searching movies:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Get similar movies
+app.get('/api/movies/:movieId/similar', cacheMiddleware(1800), async (req, res) => {
+  try {
+    const { movieId } = req.params;
+    const { page = 1 } = req.query;
+    const axios = require('axios');
+    
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}/similar`, {
+      params: {
+        api_key: process.env.TMDB_API_KEY,
+        page: parseInt(page)
+      }
+    });
+    
+    res.json({
+      success: true,
+      ...response.data,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error getting similar movies:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// ===== USER MANAGEMENT ENDPOINTS =====
+
+// Get user watchlist
+app.get('/api/user/:userId/watchlist', userSpecificCache(120), async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { page = 1, limit = 20 } = req.query;
+    
+    // TODO: Implement actual watchlist retrieval from database
+    // For now, return mock data
+    res.json({
+      success: true,
+      results: [],
+      page: parseInt(page),
+      total_pages: 0,
+      total_results: 0,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error getting user watchlist:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Add movie to watchlist
+app.post('/api/user/:userId/watchlist', invalidateCache('cache:user:*:watchlist*'), async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { movieId } = req.body;
+    
+    if (!movieId) {
+      return res.status(400).json({
+        success: false,
+        error: 'movieId is required'
+      });
+    }
+    
+    // Track the action
+    await trackingService.recordAction({
+      userId,
+      movieId,
+      actionType: 'add_watchlist',
+      value: 1,
+      timestamp: new Date()
+    });
+    
+    // TODO: Implement actual watchlist storage
+    
+    res.json({
+      success: true,
+      message: 'Movie added to watchlist',
+      movieId,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error adding to watchlist:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Remove movie from watchlist
+app.delete('/api/user/:userId/watchlist/:movieId', invalidateCache('cache:user:*:watchlist*'), async (req, res) => {
+  try {
+    const { userId, movieId } = req.params;
+    
+    // Track the action
+    await trackingService.recordAction({
+      userId,
+      movieId: parseInt(movieId),
+      actionType: 'remove_watchlist',
+      value: 1,
+      timestamp: new Date()
+    });
+    
+    // TODO: Implement actual watchlist removal
+    
+    res.json({
+      success: true,
+      message: 'Movie removed from watchlist',
+      movieId,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error removing from watchlist:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Rate a movie
+app.post('/api/user/:userId/ratings', invalidateCache('cache:user:*:recommendations*'), async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { movieId, rating } = req.body;
+    
+    if (!movieId || rating === undefined) {
+      return res.status(400).json({
+        success: false,
+        error: 'movieId and rating are required'
+      });
+    }
+    
+    if (rating < 0 || rating > 10) {
+      return res.status(400).json({
+        success: false,
+        error: 'Rating must be between 0 and 10'
+      });
+    }
+    
+    // Track the action
+    await trackingService.recordAction({
+      userId,
+      movieId,
+      actionType: 'rate',
+      value: rating,
+      timestamp: new Date()
+    });
+    
+    // TODO: Implement actual rating storage
+    
+    res.json({
+      success: true,
+      message: 'Movie rated successfully',
+      movieId,
+      rating,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error rating movie:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Get user ratings
+app.get('/api/user/:userId/ratings', userSpecificCache(300), async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { page = 1, limit = 20 } = req.query;
+    
+    const ratings = await trackingService.getUserActions(
+      userId,
+      parseInt(limit),
+      'rate'
+    );
+    
+    res.json({
+      success: true,
+      ratings,
+      page: parseInt(page),
+      total_results: ratings.length,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error getting user ratings:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
   try {

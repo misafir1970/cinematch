@@ -1,0 +1,55 @@
+{
+  "navigation": {
+    "home": "Home",
+    "recommendations": "Recommendations",
+    "search": "Search",
+    "profile": "Profile"
+  },
+  "home": {
+    "title": "CineMatch",
+    "popularMovies": "Popular Movies",
+    "trendingNow": "Trending Now",
+    "yourRecommendations": "Your Recommendations"
+  },
+  "recommendations": {
+    "title": "Recommendations for You",
+    "noRecommendations": "No recommendations yet. Rate some movies to get started!",
+    "loading": "Loading recommendations...",
+    "basedOnYourRatings": "Based on your ratings"
+  },
+  "movieDetails": {
+    "overview": "Overview",
+    "cast": "Cast",
+    "genre": "Genre",
+    "rating": "Rating",
+    "releaseDate": "Release Date",
+    "runtime": "Runtime",
+    "minutes": "min",
+    "addToWatchlist": "Add to Watchlist",
+    "removeFromWatchlist": "Remove from Watchlist",
+    "rateMovie": "Rate this movie"
+  },
+  "search": {
+    "title": "Search Movies",
+    "placeholder": "Search for movies...",
+    "noResults": "No movies found",
+    "recentSearches": "Recent Searches"
+  },
+  "profile": {
+    "title": "Profile",
+    "watchlist": "My Watchlist",
+    "ratings": "My Ratings",
+    "settings": "Settings",
+    "language": "Language",
+    "notifications": "Notifications",
+    "logout": "Logout"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "ok": "OK"
+  }
+}

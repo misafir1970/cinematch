@@ -1,0 +1,55 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "recommendations": "Recomendaciones",
+    "search": "Buscar",
+    "profile": "Perfil"
+  },
+  "home": {
+    "title": "CineMatch",
+    "popularMovies": "Películas Populares",
+    "trendingNow": "Tendencias Ahora",
+    "yourRecommendations": "Tus Recomendaciones"
+  },
+  "recommendations": {
+    "title": "Recomendaciones para Ti",
+    "noRecommendations": "Aún no hay recomendaciones. ¡Califica algunas películas para comenzar!",
+    "loading": "Cargando recomendaciones...",
+    "basedOnYourRatings": "Basado en tus calificaciones"
+  },
+  "movieDetails": {
+    "overview": "Resumen",
+    "cast": "Reparto",
+    "genre": "Género",
+    "rating": "Calificación",
+    "releaseDate": "Fecha de Estreno",
+    "runtime": "Duración",
+    "minutes": "min",
+    "addToWatchlist": "Agregar a Lista",
+    "removeFromWatchlist": "Quitar de Lista",
+    "rateMovie": "Calificar película"
+  },
+  "search": {
+    "title": "Buscar Películas",
+    "placeholder": "Buscar películas...",
+    "noResults": "No se encontraron películas",
+    "recentSearches": "Búsquedas Recientes"
+  },
+  "profile": {
+    "title": "Perfil",
+    "watchlist": "Mi Lista",
+    "ratings": "Mis Calificaciones",
+    "settings": "Configuración",
+    "language": "Idioma",
+    "notifications": "Notificaciones",
+    "logout": "Cerrar Sesión"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "retry": "Reintentar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "ok": "OK"
+  }
+}
