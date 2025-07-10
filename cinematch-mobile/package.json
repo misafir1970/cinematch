@@ -1,0 +1,74 @@
+{
+  "name": "cinematch-mobile",
+  "version": "1.0.0",
+  "main": "expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "test": "jest",
+    "test:e2e": "detox test",
+    "build:android": "expo build:android",
+    "build:ios": "expo build:ios",
+    "publish": "expo publish"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
+    "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/stack": "^6.3.16",
+    "axios": "^1.4.0",
+    "expo": "~48.0.15",
+    "expo-auth-session": "~4.0.3",
+    "expo-crypto": "~12.2.1",
+    "expo-linear-gradient": "~12.1.2",
+    "expo-localization": "~14.1.1",
+    "expo-notifications": "~0.18.1",
+    "expo-secure-store": "~12.1.1",
+    "expo-status-bar": "~1.4.4",
+    "expo-splash-screen": "~0.18.2",
+    "expo-updates": "~0.16.4",
+    "i18next": "^22.4.15",
+    "react": "18.2.0",
+    "react-i18next": "^12.2.2",
+    "react-native": "0.71.8",
+    "react-native-async-storage": "^1.18.1",
+    "react-native-elements": "^3.4.3",
+    "react-native-gesture-handler": "~2.9.0",
+    "react-native-paper": "^5.8.0",
+    "react-native-reanimated": "~2.14.4",
+    "react-native-safe-area-context": "4.5.0",
+    "react-native-screens": "~3.20.0",
+    "react-native-svg": "13.4.0",
+    "react-native-vector-icons": "^9.2.0",
+    "react-query": "^3.39.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.0.14",
+    "@types/react-native": "~0.70.6",
+    "detox": "^20.7.2",
+    "jest": "^29.2.1",
+    "typescript": "^4.9.4"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "private": true,
+  "detox": {
+    "test-runner": "jest",
+    "runner-config": "e2e/config.json",
+    "configurations": {
+      "ios": {
+        "device": "ios.simulator",
+        "app": "ios.debug"
+      },
+      "android": {
+        "device": "android.emulator",
+        "app": "android.debug"
+      }
+    }
+  }
+}
