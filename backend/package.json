@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "jest",
+    "test:recommendation-engine": "jest --testPathPattern=tests/recommendation",
+    "test:ml-models": "jest --testPathPattern=tests/ml",
+    "benchmark:recommendation-accuracy": "node tests/benchmark.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +18,22 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "@tensorflow/tfjs-node": "^4.15.0",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.3",
+    "ioredis": "^5.3.2",
+    "bull": "^4.12.2",
+    "dotenv": "^16.3.1",
+    "joi": "^17.11.0",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "nodemon": "^3.0.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.9.0",
+    "@types/express": "^4.17.21"
   }
 }
