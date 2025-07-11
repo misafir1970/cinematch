@@ -468,14 +468,9 @@ const startServer = async () => {
   }
 };
 
-// Detect Netlify Functions environment
-if (process.env.NETLIFY) {
-  // Initialize database once for function cold start
-  initializeDatabase();
+// En sona ŞUNU EKLE VE ESKİ NETLIFY BLOĞUNU KALDIR:
+module.exports = app;
 
-  // Export the Express app for serverless handler
-  module.exports = app;
-} else if (require.main === module) {
-  // Start the server normally when executed directly (local dev)
+if (require.main === module) {
   startServer();
 }
