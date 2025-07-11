@@ -1,0 +1,40 @@
+[build]
+  # Front-end build command
+  command = "npm run build"
+  # Directory with the static site output (for Vite this is usually `dist`)
+  publish  = "dist"
+  # Source folder for Netlify Functions (uncomment if you convert the backend to serverless functions)
+  functions = "netlify/functions"
+
+#───────────────
+# API Routing
+#───────────────
+# There are two common ways to make the CineMatch backend reachable:
+#   1) Proxy requests to an externally-hosted backend service
+#   2) Run the backend as a Netlify Function (e.g. `/.netlify/functions/server`)
+#
+# Uncomment the block that matches your deployment strategy and delete the other.
+
+# --- Option 1: External backend (default) ---
+# [[redirects]]
+#   from = "/api/*"
+#   # REPLACE `https://your-backend.example.com` with the live backend base URL
+#   to   = "https://your-backend.example.com/api/:splat"
+#   status = 200  # proxy
+#   force  = true
+
+# --- Option 2: Backend inside Netlify Functions ---
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/server/:splat"
+  status = 200
+  force  = true
+
+#───────────────
+# Environment variables
+#───────────────
+# Ensure the front-end code points to the same base path (`/api`) at build time.
+[context.production.environment]
+  VITE_API_BASE_URL = "/api"
+
+# You can also define BACKEND_DB_URL, JWT_SECRET, etc. here if your Netlify Functions need them.

@@ -1,6 +1,16 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+// Allow automatic construction of DATABASE_URL from individual PG* env vars (useful for Netlify-Neon integration)
+if (!process.env.DATABASE_URL && process.env.PGHOST && process.env.PGUSER) {
+  const user = encodeURIComponent(process.env.PGUSER);
+  const password = encodeURIComponent(process.env.PGPASSWORD || '');
+  const host = process.env.PGHOST;
+  const port = process.env.PGPORT || '5432';
+  const db = process.env.PGDATABASE || process.env.PGUSER;
+  process.env.DATABASE_URL = `postgres://${user}:${password}@${host}:${port}/${db}`;
+}
+
 
 // Determine when to enforce SSL. Neon PostgreSQL always requires SSL even from local environments.
 // 1) Any DATABASE_URL that points to *.neon.tech

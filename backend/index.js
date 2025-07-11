@@ -468,5 +468,14 @@ const startServer = async () => {
   }
 };
 
-// Start the server
-startServer();
+// Detect Netlify Functions environment
+if (process.env.NETLIFY) {
+  // Initialize database once for function cold start
+  initializeDatabase();
+
+  // Export the Express app for serverless handler
+  module.exports = app;
+} else if (require.main === module) {
+  // Start the server normally when executed directly (local dev)
+  startServer();
+}
