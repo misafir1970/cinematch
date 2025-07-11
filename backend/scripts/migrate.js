@@ -156,6 +156,13 @@ const migrations = [
       CREATE INDEX IF NOT EXISTS idx_user_sessions_token ON user_sessions(refresh_token);
       CREATE INDEX IF NOT EXISTS idx_user_sessions_expires ON user_sessions(expires_at);
     `
+  },
+  {
+    name: 'alter_user_ratings_rating_scale',
+    query: `
+      ALTER TABLE IF EXISTS user_ratings
+      ALTER COLUMN rating TYPE DECIMAL(3,1);
+    `
   }
 ];
 

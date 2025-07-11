@@ -2,6 +2,7 @@ const express = require('express');
 const { body, query, validationResult } = require('express-validator');
 const userDataService = require('../services/userDataService');
 const { verifyToken } = require('../middleware/auth');
+const { requireOnboardingComplete } = require('../middleware/onboarding');
 const { 
   standardLimiter, 
   actionLimiter,
@@ -30,7 +31,7 @@ const handleValidationErrors = (req, res, next) => {
 // ===== USER PROFILE ENDPOINTS =====
 
 // Get user profile
-router.get('/profile', standardLimiter, async (req, res) => {
+router.get('/profile', standardLimiter, requireOnboardingComplete, async (req, res) => {
   try {
     const profile = await userDataService.getUserProfile(req.user.id);
 
@@ -255,6 +256,7 @@ router.post('/watchlist',
 // Get user watchlist
 router.get('/watchlist',
   standardLimiter,
+  requireOnboardingComplete,
   [
     query('limit').optional().isInt({ min: 1, max: 100 }),
     query('offset').optional().isInt({ min: 0 }),
@@ -420,6 +422,7 @@ router.post('/actions',
 // Get user actions
 router.get('/actions',
   standardLimiter,
+  requireOnboardingComplete,
   [
     query('limit').optional().isInt({ min: 1, max: 500 }),
     query('offset').optional().isInt({ min: 0 }),
@@ -458,7 +461,7 @@ router.get('/actions',
 // ===== ANALYTICS ENDPOINTS =====
 
 // Get user analytics
-router.get('/analytics', standardLimiter, async (req, res) => {
+router.get('/analytics', standardLimiter, requireOnboardingComplete, async (req, res) => {
   try {
     const analytics = await userDataService.getUserAnalytics(req.user.id);
 
@@ -479,7 +482,7 @@ router.get('/analytics', standardLimiter, async (req, res) => {
 // ===== RECOMMENDATIONS DATA ENDPOINTS =====
 
 // Get data for recommendation engine
-router.get('/recommendation-data', standardLimiter, async (req, res) => {
+router.get('/recommendation-data', standardLimiter, requireOnboardingComplete, async (req, res) => {
   try {
     const data = await userDataService.getRecommendationData(req.user.id);
 

@@ -1,13 +1,28 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
+
+// Determine when to enforce SSL. Neon PostgreSQL always requires SSL even from local environments.
+// 1) Any DATABASE_URL that points to *.neon.tech
+// 2) Production environment
+// 3) Explicit override via PG_FORCE_SSL=true
+const isNeon = process.env.DATABASE_URL?.includes('neon.tech');
+const forceSSL = process.env.PG_FORCE_SSL === 'true';
+
+const sslConfig = (isNeon || forceSSL || process.env.NODE_ENV === 'production')
+  ? { rejectUnauthorized: false, require: true }
+  : false;
+
+
 // PostgreSQL Connection Pool with fallback handling
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-  max: 20, // maximum number of clients in the pool
-  idleTimeoutMillis: 30000, // close idle clients after 30 seconds
-  connectionTimeoutMillis: 2000, // return an error after 2 seconds if connection could not be established
+  ssl: sslConfig,
+  // Allow overriding pool behaviour through env vars while keeping sensible defaults
+  max: parseInt(process.env.PG_POOL_MAX || '20', 10),
+  idleTimeoutMillis: parseInt(process.env.PG_IDLE_TIMEOUT || '30000', 10),
+  connectionTimeoutMillis: parseInt(process.env.PG_CONN_TIMEOUT || '2000', 10),
 });
 
 let isDBConnected = false;

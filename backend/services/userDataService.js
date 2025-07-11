@@ -118,7 +118,7 @@ class UserDataService {
         `INSERT INTO user_actions 
          (user_id, action_type, movie_id, movie_title, value, metadata, created_at)
          VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP)`,
-        [userId, 'rating', movieId, movieTitle, rating, JSON.stringify({ reviewText, isFavorite })]
+        [userId, 'rate', movieId, movieTitle, rating, JSON.stringify({ reviewText, isFavorite })]
       );
 
       await client.query('COMMIT');
